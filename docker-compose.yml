@@ -18,7 +18,7 @@ services:
       - bloomtech-mysql
       
   myapp-main:
-    image: blommtech/api_docker
+    image: bloomtech-image
     networks:
       - bloomtech-mysql
     restart: on-failure
