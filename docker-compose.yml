@@ -1,14 +1,14 @@
   
-version: '1'
+version: '3'
 
 services:
 
   myapp-mysql:
-    image: mysql:lasted
+    image: mysql:latest
     environment:
       - MYSQL_ROOT_PASSWORD=mysql
       - MYSQL_DATABASE=db_bloomtech
-      - MYSQL_USER=root
+      - MYSQL_USER=bloomtech
       - MYSQL_PASSWORD=mysql
     ports:
       - 13306:3306
@@ -28,7 +28,7 @@ services:
       - 8080:8080
     environment:
       - DATABASE_HOST=myapp-mysql
-      - DATABASE_USER=root
+      - DATABASE_USER=bloomtech
       - DATABASE_PASSWORD=mysql
       - DATABASE_NAME=db_bloomtech
       - DATABASE_PORT=3306
