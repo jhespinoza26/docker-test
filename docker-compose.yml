@@ -1,5 +1,5 @@
   
-version: '3'
+version: '1'
 
 services:
 
@@ -13,14 +13,14 @@ services:
     ports:
       - 3306:3306
     volumes:
-      - /home:/var/lib/mysql
+      - db_data:/var/lib/mysql
     networks:
-      - bloomtech-mysql
+      - spring-server-mysql
       
   myapp-main:
     image: bloomtech-image
     networks:
-      - bloomtech-mysql
+      - spring-server-mysql
     restart: on-failure
     depends_on:
       - myapp-mysql
@@ -34,4 +34,6 @@ services:
       - DATABASE_PORT=3306
    
 networks:
-  bloomtech-mysql:
+ spring-server-mysql:
+volumes:
+  db_data: {}
