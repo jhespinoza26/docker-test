@@ -1,0 +1,37 @@
+  
+version: '3'
+
+services:
+
+  myapp-mysql:
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysql
+      - MYSQL_DATABASE=db_bloomtech
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=mysql
+    ports:
+      - 3306:3306
+    volumes:
+      - /home/jhea/Documents/Api/v2/bloomtech/bd_spring_docker:/var/lib/mysql
+    networks:
+      - bloomtech-mysql
+      
+  myapp-main:
+    image: blommtech/api_docker
+    networks:
+      - bloomtech-mysql
+    restart: on-failure
+    depends_on:
+      - myapp-mysql
+    ports:
+      - 8080:8080
+    environment:
+      - DATABASE_HOST=myapp-mysql
+      - DATABASE_USER=root
+      - DATABASE_PASSWORD=mysql
+      - DATABASE_NAME=db_bloomtech
+      - DATABASE_PORT=3306
+   
+networks:
+  bloomtech-mysql:
