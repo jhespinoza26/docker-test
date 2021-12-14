@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface IPremio extends JpaRepository<Premio,Long> {
-    @Query(value = "SELECT p FROM Premio p")
-    public List<Premio> findAll(Sort sort);
+//    @Query(value = "SELECT p FROM Premio p")
+//    public List<Premio> findAll(Sort sort);
 }

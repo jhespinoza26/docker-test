@@ -26,7 +26,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value= "red")
-@CrossOrigin(origins = "*")
 public class RedController {
     @Autowired
     private IRedService servicered;
@@ -72,7 +71,7 @@ public class RedController {
     //buscar por nivel y padre
     @GetMapping(value = "/level/{nivel}/father/{padre_id}")
     public List<Red> findBypadre_id(@PathVariable long nivel,@PathVariable long padre_id){
-
+        findBypadre_idRed((int) padre_id);
         return servicered.findBynivel(nivel,padre_id);
     }
 

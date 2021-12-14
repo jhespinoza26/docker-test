@@ -1,6 +1,7 @@
 package com.bloomtech.bloomtech;
 
 import com.bloomtech.bloomtech.security.JWTAuthorizationFilter;
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,6 +24,9 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.Arrays;
+import java.util.List;
 
 @SpringBootApplication
 @EnableAspectJAutoProxy(proxyTargetClass = true)
@@ -51,36 +55,33 @@ public class BloomtechApplication {
 					.csrf().disable()
 					.addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 					.authorizeRequests()
-					.antMatchers(HttpMethod.POST, "/user/save").permitAll()
 					.antMatchers(HttpMethod.POST, "/user/login").permitAll()
 					.antMatchers(HttpMethod.POST, "/user/register").permitAll()
-					.antMatchers(HttpMethod.GET, "/red/**").permitAll()
-					.antMatchers(HttpMethod.GET, "/price/**").permitAll()
-					//.antMatchers("/usuario").access("hasRole('usuario')")
-					//.antMatchers(HttpMethod.POST, "/usuario").access("hasRole('administrador')")
-					.anyRequest().authenticated();
+					.antMatchers(HttpMethod.POST, "/user/save").permitAll()
+					.antMatchers(HttpMethod.PUT, "/user/refer/**").permitAll()
 
+          //.antMatchers(HttpMethod.GET, "/price/find").access("hasAuthority('ROLE_administrador')")
+					//.antMatchers("/price/**").permitAll()
+					//.antMatchers("/red/level/**").permitAll()
+
+					.antMatchers(HttpMethod.GET,"/user/find").access("hasAuthority('ROLE_administrador')")
+					.antMatchers(HttpMethod.PUT,"/user/update/**").access("hasAuthority('ROLE_administrador')")
+					.antMatchers(HttpMethod.DELETE,"/user/delete/**").access("hasAuthority('ROLE_administrador')")
+					.antMatchers(HttpMethod.GET, "/red/level/**").access("hasAuthority('ROLE_administrador') or hasAuthority('ROLE_usuario')")
+                    //.antMatchers(HttpMethod.GET, "/red/level/**").access("hasAuthority('ROLE_usuario')")
+
+					.anyRequest().authenticated();
 		}
 		@Bean
 		CorsConfigurationSource corsConfigurationSource(){
-			UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-			source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
-			return source;
+            CorsConfiguration configuration = new CorsConfiguration();
+            configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
+            configuration.setAllowCredentials(true);
+            configuration.setAllowedHeaders(Arrays.asList("Access-Control-Allow-Headers","Access-Control-Allow-Origin","Access-Control-Request-Method", "Access-Control-Request-Headers","Origin","Cache-Control", "Content-Type", "Authorization"));
+            configuration.setAllowedMethods(Arrays.asList("GET","POST","OPTIONS","PUT","PATCH","DELETE"));
+            UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+            source.registerCorsConfiguration("/**", configuration);
+            return source;
 		}
-	}
-
-
-
-	@Bean
-	public WebMvcConfigurer corsConfigurer(){
-		return new WebMvcConfigurer() {
-			@Override
-			public void addCorsMappings(CorsRegistry registry) {
-				registry.addMapping("/**")
-						.allowedOrigins("*")
-						.allowedMethods("GET","POST","PUT","DELETE")
-						.maxAge(3600);
-			}
-		};
 	}
 }

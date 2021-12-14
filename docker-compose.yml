@@ -1,39 +1,55 @@
   
-version: '3'
+#java #programming #springboot #database
+version: '3.3'
 
 services:
+    #service 1: definition of mysql database
+    db:
+      image: mysql:latest
+      command: --lower_case_table_names=1
+      container_name: mysql-db  
+      environment:
+        - MYSQL_ROOT_PASSWORD=mysql
+        - MYSQL_DATABASE=db_bloomtech
+      ports:
+        - "3306:3306"
+      volumes:
+        - db_data:/var/lib/mysql
+        - ./db_bloomtech.sql:/docker-entrypoint-initdb.d/db_bloomtech.sql
+      restart: always
 
-  myapp-mysql:
-    image: mysql:latest
-    environment:
-      - MYSQL_ROOT_PASSWORD=mysql
-      - MYSQL_DATABASE=db_bloomtech
-      - MYSQL_USER=bloomtech
-      - MYSQL_PASSWORD=mysql
-    ports:
-      - 13306:3306
-    volumes:
-      - db_data:/var/lib/mysql
-    networks:
-      - spring-server-mysql
-      
-  myapp-main:
-    image: bloomtech-image
-    networks:
-      - spring-server-mysql
-    restart: on-failure
-    depends_on:
-      - myapp-mysql
-    ports:
-      - 8080:8080
-    environment:
-      - DATABASE_HOST=myapp-mysql
-      - DATABASE_USER=bloomtech
-      - DATABASE_PASSWORD=mysql
-      - DATABASE_NAME=db_bloomtech
-      - DATABASE_PORT=3306
-   
-networks:
- spring-server-mysql:
+    #service 2: definition of phpMyAdmin
+    phpmyadmin:
+      image: phpmyadmin/phpmyadmin:latest
+      container_name: my-php-myadmin
+      ports:
+        - "8082:80"
+      restart: always
+
+      depends_on:
+        - db
+      environment:
+        SPRING_DATASOURCE_PASSWORD: mysql
+
+
+
+    #service 3: definition of your spring-boot app 
+    customerservice:                        #it is just a name, which will be used only in this file.
+      image: property-service               #name of the image after dockerfile executes
+      container_name: property-service-app  #name of the container created from docker image
+      build:
+        context: .                          #docker file path (. means root directory)
+        dockerfile: Dockerfile              #docker file name
+      ports:
+        - "8080:8080"                       #docker containter port with your os port
+      restart: always
+
+      depends_on:                           #define dependencies of this app
+        - db                                #dependency name (which is defined with this name 'db' in this file earlier)
+      environment:
+        SPRING_DATASOURCE_URL: jdbc:mysql://mysql-db:3306/db_bloomtech?createDatabaseIfNotExist=true
+        SPRING_DATASOURCE_USERNAME: root
+        SPRING_DATASOURCE_PASSWORD: mysql
+        SPRING_DATASOURCE_DATABASE: db_bloomtech
 volumes:
   db_data: {}

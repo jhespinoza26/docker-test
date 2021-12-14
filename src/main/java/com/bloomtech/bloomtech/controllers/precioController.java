@@ -24,14 +24,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.query.Procedure;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value= "price")
-@CrossOrigin(origins = "*")
 public class precioController {
     private static String apiKey = "84c7a557-761f-4703-90fa-414eb3781be7";//"b54bcf4d-1bca-4e8e-9a24-22ff2c3d462c";
 

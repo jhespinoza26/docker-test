@@ -21,8 +21,8 @@ public class UsuarioService implements IUsuarioService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<Usuario> findAll(Sort sort) {
-        return usuariodao.findAll(sort);
+    public List<Usuario> findAll() {
+        return usuariodao.findAll();
     }
 
     @Override

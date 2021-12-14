@@ -8,6 +8,6 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface IBono extends JpaRepository<Bono,Long> {
-    @Query(value = "SELECT p FROM Bono p")
-    public List<Bono> findAll(Sort sort);
+//    @Query(value = "SELECT p FROM Bono p")
+//    public List<Bono> findAll(Sort sort);
 }

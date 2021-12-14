@@ -13,12 +13,12 @@ public interface Ihijodao extends JpaRepository<Hijo, Long> {
     @Query(value = "SELECT u FROM Hijo u")
     public List<Hijo> findAll(Sort sort);
 
-    @Query(value = "SELECT * FROM Hijo ORDER BY id",
-            countQuery = "SELECT count(*) FROM Hijo",
+    @Query(value = "SELECT * FROM hijo ORDER BY id",
+            countQuery = "SELECT count(*) FROM hijo",
             nativeQuery = true)
     public Page<Hijo> findAll(Pageable pegeable);
 
-    @Query(value = "select h from Hijo h where h.id_hijo= :id")
+    @Query(value = "select * from hijo h where h.id_hijo= :id", nativeQuery = true)
     public Hijo findByid(long id);
 
     @Query(value = "SELECT * FROM hijo WHERE padre_id= :id", nativeQuery = true)

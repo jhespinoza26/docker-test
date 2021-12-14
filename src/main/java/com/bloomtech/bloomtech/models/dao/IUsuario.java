@@ -11,33 +11,33 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface IUsuario extends JpaRepository<Usuario, Long> {
-    @Query(value = "SELECT u FROM Usuario u")
-    public List<Usuario> findAll(Sort sort);
+    @Query(value = "SELECT * FROM usuario",nativeQuery = true)
+    public List<Usuario> findAll();
 
-    @Query(value = "SELECT * FROM Usuario ORDER BY id",
-            countQuery = "SELECT count(*) FROM Usuario",
+    @Query(value = "SELECT * FROM usuario ORDER BY id",
+            countQuery = "SELECT count(*) FROM usuario",
             nativeQuery = true)
     public Page<Usuario> findAll(Pageable pegeable);
 
     //@Query(value = "select h from Usuario h left join fetch h.padre where h.id_hijo = :id")
 
-    @Query(value = "select u from Usuario u where u.id_usuario= :id")
+    @Query(value = "select * from usuario u where u.id_usuario= :id", nativeQuery = true)
     public Usuario findByid(long id);
 
 
-    @Query(value = "select u from Usuario u where u.clave_invitacion= :clave_invitacion")
+    @Query(value = "select * from usuario u where u.clave_invitacion= :clave_invitacion", nativeQuery = true)
     public Usuario findByclave_invitacion(String clave_invitacion);
 
-    @Query(value = "select u from Usuario u where u.usuario= :usuario")
+    @Query(value = "select * from usuario u where u.usuario= :usuario", nativeQuery = true)
     public Usuario findByusername(String usuario);
 
-    @Query(value = "select u from Usuario u where u.email= :email")
+    @Query(value = "select * from usuario u where u.email= :email", nativeQuery = true)
     public Usuario findByemail(String email);
 
-    @Query(value = "select u from Usuario u where u.estado= :estado")
+    @Query(value = "select * from usuario u where u.estado= :estado", nativeQuery = true)
     public Usuario findByestado(String estado);
 
-    @Query(value = "select * from Usuario", nativeQuery = true)
+    @Query(value = "select * from usuario", nativeQuery = true)
     public List<Usuario> findAllUser();
 
 }

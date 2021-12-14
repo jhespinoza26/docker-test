@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IUsuarioService {
-    public List<Usuario> findAll(Sort sort);
+    public List<Usuario> findAll();
     public Page<Usuario> findAll(Pageable pageable);
     public Usuario findById(long id);
     public void delete(long id);

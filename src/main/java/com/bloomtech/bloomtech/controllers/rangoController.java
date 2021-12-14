@@ -21,7 +21,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value= "rank")
-@CrossOrigin(origins = "*")
 public class rangoController {
     @Autowired
     private IRangoService servicerango;

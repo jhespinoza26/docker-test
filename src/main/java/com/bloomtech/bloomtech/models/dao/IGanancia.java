@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface IGanancia extends JpaRepository<Ganancia,Long> {
-    @Query(value = "SELECT p FROM Ganancia p")
-    public List<Ganancia> findAll(Sort sort);
+//    @Query(value = "SELECT p FROM Ganancia p")
+//    public List<Ganancia> findAll(Sort sort);
 
 }

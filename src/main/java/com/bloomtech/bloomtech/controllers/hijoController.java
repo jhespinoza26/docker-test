@@ -22,7 +22,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value= "child")
-@CrossOrigin(origins = "*")
 public class hijoController {
 
     @Autowired

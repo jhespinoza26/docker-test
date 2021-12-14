@@ -40,7 +40,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value= "user")
-@CrossOrigin(origins = "*")
 public class UsuarioController {
 
     @Autowired
@@ -76,7 +75,7 @@ public class UsuarioController {
             Pageable pageable = PageRequest.of(page, size, sortByName);
             usuarios = serviceusuario.findAll(pageable).getContent();
         }else{
-            usuarios = serviceusuario.findAll(sortByName);
+            usuarios = serviceusuario.findAll();
         }
         if(usuarios.size()>0){
             responseEntity = new ResponseEntity<List<Usuario>>(usuarios, HttpStatus.OK);

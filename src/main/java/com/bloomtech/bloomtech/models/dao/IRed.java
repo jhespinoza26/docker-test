@@ -15,8 +15,8 @@ public interface IRed extends JpaRepository<Red, Long> {
     @Query(value = "SELECT r FROM red r")
     public List<Red> findAll(Sort sort);
 
-    @Query(value = "SELECT * FROM Red ORDER BY id",
-            countQuery = "SELECT count(*) FROM Red",
+    @Query(value = "SELECT * FROM red ORDER BY id",
+            countQuery = "SELECT count(*) FROM red",
             nativeQuery = true)
     public Page<Red> findAll(Pageable pegeable);
 
